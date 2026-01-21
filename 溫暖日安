@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日干支能量指引</title>
+    <style>
+        /* --- 基礎設定 & 變數 --- */
+        :root {
+            --bg-color: #F9F7F2; /* 米白色底 */
+            --card-bg: #FFFFFF;
+            --primary-green: #A8D8B9; /* 粉綠色 */
+            --primary-green-dark: #86C19A;
+            --earth-tone: #DCC7AA; /* 未土色調 */
+            --text-main: #4A504C; /* 深灰綠 */
+            --text-sub: #8B968D;
+            --accent-red: #E88D8D; /* 寒流警示用 */
+            --font-serif: "Noto Serif TC", "Songti TC", serif;
+            --font-sans: "Noto Sans TC", system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 10% 20%, rgba(168, 216, 185, 0.2) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(220, 199, 170, 0.2) 0%, transparent 20%);
+        }
+
+        /* --- 主容器 (手機樣式) --- */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            padding: 30px 24px;
+            min-height: 90vh;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- 頂部導航 --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .date-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn-today {
+            background: var(--text-main);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-today:active {
+            transform: scale(0.95);
+        }
+
+        /* --- 核心能量卡片 --- */
+        .energy-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7f2 100%);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            border: 1px solid rgba(168, 216, 185, 0.3);
+            animation: fadeIn Up 0.8s ease-out;
+        }
+
+        .ganzhi-tag {
+            display: inline-block;
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .main-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        .sub-desc {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* --- 裝飾線條 --- */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary-green), transparent);
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
+        /* --- 行動建議區 --- */
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .action-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .action-chip {
+            background: white;
+            border: 1px solid #E8E8E8;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* --- 心理調適引言 --- */
+        .mindset-quote {
+            background: rgba(255,255,255,0.5);
+            border-left: 3px solid var(--primary-green);
+            padding: 15px;
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* --- 幸運色區塊 --- */
+        .lucky-colors-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .color-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .color-circle:hover {
+            transform: scale(1.1);
+        }
+
+        .color-circle::after {
+            content: '複製';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+        .color-circle:hover::after {
+            opacity: 1;
+        }
+
+        .color-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* --- 底部天氣警示 --- */
+        .weather-alert {
+            margin-top: auto;
+            background: #FFF0F0;
+            border: 1px solid #FFDCDC;
+            color: #C15555;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- 動畫定義 --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- RWD 微調 --- */
+        @media (max-width: 400px) {
+            .main-title { font-size: 1.5rem; }
+            .action-list { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <div class="date-selector">
+                <span id="currentDate">1/21 (三)</span>
+            </div>
+            <button class="btn-today">今日</button>
+        </header>
+
+        <div style="margin-bottom: 10px; color: var(--text-sub);">
+            <span id="timeGreeting">午安</span>，願你擁有平靜的一天。
+        </div>
+
+        <article class="energy-card">
+            <span class="ganzhi-tag">乙未日</span>
+            <h1 class="main-title">溫柔修復</h1>
+            <p class="sub-desc">
+                乙木入未土，像是柔軟的草本植物在溫暖的大地紮根。<br>
+                今天不需要過度用力，允許自己慢下來。
+            </p>
+
+            <div class="divider"></div>
+
+            <h3 class="section-title">心理調適 Mindset</h3>
+            <div class="mindset-quote">
+                「照顧內在那個有點累的自己，你的感受值得被溫柔接住。」
+            </div>
+
+            <h3 class="section-title">適宜行動 Action</h3>
+            <div class="action-list">
+                <div class="action-chip">🌱 照顧身體</div>
+                <div class="action-chip">🤝 照顧關係</div>
+                <div class="action-chip">🧘 內在對話</div>
+            </div>
+        </article>
+
+        <section style="margin-bottom: 24px;">
+            <h3 class="section-title">幸運色 Lucky Colors</h3>
+            <div class="lucky-colors-container">
+                <div class="color-circle" style="background-color: #C1E1C1;" onclick="copyColor('#C1E1C1')" title="#C1E1C1"></div>
+                <div class="color-circle" style="background-color: #FDFBF7;" onclick="copyColor('#FDFBF7')" title="#FDFBF7"></div>
+                <p class="color-desc">
+                    建議粉綠或米白色<br>
+                    讓神經系統慢慢放鬆
+                </p>
+            </div>
+        </section>
+
+        <footer class="weather-alert">
+            <span>❄️</span>
+            <span>寒流發威，出門請多加一件保暖衣物。</span>
+        </footer>
+    </div>
+
+    <script>
+        // 1. 動態問候語
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greetingElement = document.getElementById('timeGreeting');
+            let greeting = "日安";
+            
+            if (hour >= 5 && hour < 12) greeting = "早安";
+            else if (hour >= 12 && hour < 18) greeting = "午安";
+            else greeting = "晚安";
+
+            greetingElement.textContent = greeting;
+        }
+
+        // 2. 複製色碼功能
+        function copyColor(colorCode) {
+            navigator.clipboard.writeText(colorCode).then(() => {
+                alert('已複製幸運色碼：' + colorCode);
+            }).catch(err => {
+                console.error('複製失敗', err);
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            updateGreeting();
+            
+            // 點擊 "今日" 按鈕的簡單互動 (Demo)
+            document.querySelector('.btn-today').addEventListener('click', () => {
+                // 實際應用中這裡會重置回到今天的日期
+                alert('已回到今日能量場域');
+            });
+        });
+    </script>
+</body>
+</html>
